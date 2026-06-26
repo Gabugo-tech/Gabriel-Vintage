@@ -1,0 +1,6 @@
+{
+  "name": "Gabriel Vintage - E-Commerce Marketplace",
+  "description": "A premium e-commerce platform featuring auction bidding, real-time synchronization, secure phone & email auth with SMS code validation, client-friendly guided checkout, and dedicated admin controls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
