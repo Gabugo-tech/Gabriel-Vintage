@@ -245,7 +245,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
       }
 
       setSimulationToast("🔒 SECURE LOGIN AUTH: Access request authorized successfully!");
-      onAuthSuccess(email, matchedUser?.phone || phone || "+244 955 120190", matchedUser?.name || name || "Verified Customer");
+      onAuthSuccess(email, matchedUser?.phone || phone || "", matchedUser?.name || name || "Verified Customer");
       setTimeout(() => {
         onClose();
         setSimulationToast(null);
@@ -253,23 +253,30 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
     }
   };
 
-  // Google Simulated Sign-In - ultra fast account creation (< 5 seconds!)
+  // Google Simulated Sign-In
   const handleGoogleSignIn = () => {
+    // Use whatever email the user has already typed, or leave it blank for them to fill
+    const resolvedEmail = email.trim() || "";
+    const resolvedName = name.trim() || "";
+
+    if (!resolvedEmail || !/\S+@\S+\.\S+/.test(resolvedEmail)) {
+      setFieldErrors({ email: "Please enter your email address first, then click Continue with Google." });
+      return;
+    }
+
     setSimulationToast("🔄 AUTH SERVICES: Fetching secure cryptographic token from accounts.google.com...");
     setTimeout(() => {
-      const gEmail = "nnanwubagabriel@gmail.com";
-      const gName = "Gabriel";
-      const gPhone = "+234 800 000 0000";
-      
+      const gName = resolvedName || resolvedEmail.split("@")[0];
+      const gPhone = phone.trim() || "";
+
       setName(gName);
-      setEmail(gEmail);
       setPhone(gPhone);
       setPassword("GoogleFederatedSecure-898");
-      
-      setSimulationToast(`🎉 GOOGLE ACCOUNT RETRIEVED: Logged in securely as ${gName} (${gEmail}) via Google Verified OAuth! Handshaking session profile...`);
-      
+
+      setSimulationToast(`🎉 GOOGLE ACCOUNT RETRIEVED: Signed in as ${gName} (${resolvedEmail}) via Google OAuth!`);
+
       setTimeout(() => {
-        onAuthSuccess(gEmail, gPhone, gName);
+        onAuthSuccess(resolvedEmail, gPhone, gName);
         onClose();
         setSimulationToast(null);
       }, 1500);
@@ -432,7 +439,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
                   <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z" fill="#FBBC05"/>
                   <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.85c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                 </svg>
-                Continue with Google Secure
+                Continue with Google
               </button>
 
               <div className="relative flex py-1 items-center">
