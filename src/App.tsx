@@ -15,7 +15,7 @@ import { safeLocalStorage } from "./lib/storage";
 
 import { VintageItem, MarketBooth, BidRecord, Lookbook } from "./types";
 import { INITIAL_BOOTHS, INITIAL_ITEMS, INITIAL_LOOKBOOKS } from "./data";
-import { Star, Shield, HelpCircle, Heart, Instagram } from "lucide-react";
+import { Star, Shield, HelpCircle, Heart, Instagram, ShoppingBag, User } from "lucide-react";
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<string>("browse");
@@ -438,81 +438,291 @@ export default function App() {
 
   if (isGated) {
     return (
-      <div className="min-h-screen bg-[#1F1D19] text-[#FAF9F5] flex flex-col justify-between font-sans relative overflow-hidden" id="gated_visitor_auth_showroom">
-        {/* Dynamic decorative backdrop blurring halos */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-600/5 rounded-full blur-3xl"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(#2E2B25_1px,transparent_1px)] [background-size:20px_20px] opacity-20"></div>
+      <div className="min-h-screen bg-[#0F0E0C] text-[#FAF9F5] font-sans relative overflow-x-hidden" id="gated_visitor_auth_showroom">
+
+        {/* ── AMBIENT BACKGROUND LAYERS ── */}
+        <div className="fixed inset-0 pointer-events-none z-0">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-amber-500/8 rounded-full blur-[120px]"></div>
+          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-orange-600/6 rounded-full blur-[100px]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(#2a2820_1px,transparent_1px)] [background-size:28px_28px] opacity-30"></div>
         </div>
 
-        {/* Top brand header bar */}
-        <header className="border-b border-stone-800/80 py-5 px-6 relative z-10 flex items-center justify-between bg-stone-950/20 backdrop-blur-md">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 bg-jumia-orange rounded-full animate-ping"></span>
-            <span className="font-serif text-lg font-bold tracking-tight text-white italic">FitCheck</span>
+        {/* ── NAVBAR ── */}
+        <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/6 bg-[#0F0E0C]/80 backdrop-blur-xl">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="bg-jumia-orange text-white px-3 py-1.5 rounded-lg font-black text-xl flex items-center">
+                Fit<span className="font-serif italic font-bold">Check</span>
+              </div>
+              <span className="hidden sm:block text-[9px] font-mono text-stone-500 uppercase tracking-widest border border-stone-800 px-2 py-0.5 rounded">
+                Verified Vintage
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="text-xs font-bold text-stone-400 hover:text-white transition-colors cursor-pointer hidden sm:block"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => setIsAuthModalOpen(true)}
+                className="bg-jumia-orange hover:bg-[#E07A13] text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors cursor-pointer"
+              >
+                Get Started
+              </button>
+            </div>
           </div>
-          <span className="font-mono text-[9px] uppercase tracking-widest text-amber-500 bg-amber-950/40 px-2.5 py-1 rounded border border-amber-900/30">
-            Secure Entry Required
-          </span>
         </header>
 
-        {/* Central visual statement panel - layout designed desktop-first with extreme aesthetic precision */}
-        <div className="max-w-4xl mx-auto px-6 py-12 md:py-24 relative z-10 flex flex-col md:flex-row items-center justify-center gap-12 flex-1">
-          <div className="text-center md:text-left space-y-6 md:max-w-md">
-            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-jumia-orange font-bold block bg-orange-950/60 px-3.5 py-1 rounded-full w-fit mx-auto md:mx-0 border border-orange-900/30">
-              The anti-fast fashion showroom
-            </span>
-            <h1 className="font-serif text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight text-white italic">
-              Authentication <br /> Gated Cabinets.
-            </h1>
-            <p className="font-sans text-stone-400 text-xs sm:text-sm leading-relaxed">
-              Step into an analog-grade digital bazaar. To ensure live bidding authenticity, measurements flat-checks, and direct-to-buyer boutique courier delivery, visitors must create a signature account first.
-            </p>
+        {/* ── HERO SECTION ── */}
+        <section className="relative z-10 pt-32 pb-20 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center min-h-[80vh]">
 
-            {/* Aesthetic trust indicators */}
-            <div className="pt-4 border-t border-stone-800 space-y-3.5 text-xs text-stone-300">
-              <div className="flex items-start gap-2.5">
-                <span className="p-0.5 bg-amber-950/60 text-amber-400 rounded shrink-0 font-mono text-[10px] font-bold">✓</span>
-                <p className="leading-tight"><strong className="text-white">Single-Stitch Sizing Ledger:</strong> Full access to exact waist, chest, and shoulder millimetre flat measurements.</p>
+              {/* Left — Copy */}
+              <div className="space-y-8">
+                <div className="inline-flex items-center gap-2 bg-amber-950/50 border border-amber-800/40 text-amber-400 text-[11px] font-mono uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">
+                  <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
+                  Live Auction — 6 Items Active Now
+                </div>
+
+                <div className="space-y-4">
+                  <h1 className="font-serif text-5xl sm:text-6xl xl:text-7xl font-bold leading-[1.05] tracking-tight">
+                    Vintage fashion,<br />
+                    <span className="text-jumia-orange italic">authenticated.</span>
+                  </h1>
+                  <p className="text-stone-400 text-base sm:text-lg leading-relaxed max-w-lg">
+                    FitCheck is a curated marketplace for rare vintage garments sourced from the world's best flea markets — Portobello Road, Shimokitazawa, Brooklyn Flea, and Milan Navigli.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={() => setIsAuthModalOpen(true)}
+                    className="bg-jumia-orange hover:bg-[#E07A13] text-white font-bold px-8 py-3.5 rounded-xl text-sm uppercase tracking-wider transition-all shadow-lg shadow-orange-900/30 cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <ShoppingBag className="w-4 h-4" />
+                    Start Shopping
+                  </button>
+                  <button
+                    onClick={() => setIsAuthModalOpen(true)}
+                    className="border border-stone-700 hover:border-stone-500 text-stone-300 hover:text-white font-bold px-8 py-3.5 rounded-xl text-sm uppercase tracking-wider transition-all cursor-pointer"
+                  >
+                    Create Account
+                  </button>
+                </div>
+
+                {/* Trust badges */}
+                <div className="flex flex-wrap gap-4 pt-2">
+                  {[
+                    { icon: <Shield className="w-3.5 h-3.5" />, text: "Provenance Guaranteed" },
+                    { icon: <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />, text: "Flat-Measured Sizing" },
+                    { icon: <HelpCircle className="w-3.5 h-3.5" />, text: "No Hidden Algorithms" },
+                  ].map((b, i) => (
+                    <div key={i} className="flex items-center gap-1.5 text-[11px] text-stone-400 font-medium">
+                      <span className="text-amber-500">{b.icon}</span>
+                      {b.text}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="flex items-start gap-2.5">
-                <span className="p-0.5 bg-amber-950/60 text-amber-400 rounded shrink-0 font-mono text-[10px] font-bold">✓</span>
-                <p className="leading-tight"><strong className="text-white">Flea Market Provenance:</strong> Chronological archive bios detailing Portobello Road & Shimokitazawa chest finds.</p>
+
+              {/* Right — Product Preview Cards */}
+              <div className="relative hidden lg:block">
+                {/* Floating cards arrangement */}
+                <div className="relative w-full h-[560px]">
+
+                  {/* Main card */}
+                  <div className="absolute top-0 right-0 w-64 bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden shadow-2xl">
+                    <div className="aspect-square bg-stone-800 overflow-hidden relative">
+                      <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&q=80" alt="Vintage jacket" className="w-full h-full object-cover" />
+                      <div className="absolute top-3 left-3 bg-jumia-orange text-[9px] font-black uppercase px-2 py-0.5 rounded text-stone-900 tracking-wider">Live Auction</div>
+                    </div>
+                    <div className="p-4 space-y-2">
+                      <p className="text-[10px] font-mono text-stone-500 uppercase">70s Rocker • Neon Nostalgia</p>
+                      <h4 className="font-serif text-sm font-bold text-white leading-tight">1978 Schott Perfecto Leather Jacket</h4>
+                      <div className="flex items-baseline justify-between pt-1">
+                        <div>
+                          <span className="text-jumia-orange font-black font-mono text-base">₦245</span>
+                          <span className="text-stone-600 text-[10px] line-through ml-1.5">₦342</span>
+                        </div>
+                        <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded">7 bids</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Second card — offset */}
+                  <div className="absolute top-48 left-0 w-56 bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden shadow-xl">
+                    <div className="h-36 bg-stone-800 overflow-hidden">
+                      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&q=80" alt="Sukajan" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="p-3 space-y-1">
+                      <p className="text-[9px] font-mono text-stone-500 uppercase">80s Retro • Tokyo</p>
+                      <h4 className="font-serif text-xs font-bold text-white line-clamp-1">Kyoto Cranes Sukajan</h4>
+                      <span className="text-jumia-orange font-black font-mono text-sm block">₦320</span>
+                    </div>
+                  </div>
+
+                  {/* Third card — bottom right */}
+                  <div className="absolute bottom-0 right-8 w-52 bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden shadow-xl">
+                    <div className="h-32 bg-stone-800 overflow-hidden">
+                      <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400&q=80" alt="Vintage tee" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="p-3 space-y-1">
+                      <p className="text-[9px] font-mono text-stone-500 uppercase">90s Grunge • Brooklyn</p>
+                      <h4 className="font-serif text-xs font-bold text-white line-clamp-1">Nirvana In Utero Tour Tee</h4>
+                      <span className="text-jumia-orange font-black font-mono text-sm block">₦360</span>
+                    </div>
+                  </div>
+
+                  {/* Decorative live badge floating */}
+                  <div className="absolute top-36 right-12 bg-red-950/80 border border-red-800/60 text-red-300 text-[9px] font-mono font-black uppercase px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg backdrop-blur-sm">
+                    <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-ping"></span>
+                    Bidding Live
+                  </div>
+
+                </div>
               </div>
             </div>
           </div>
+        </section>
 
-          {/* Interactive registration trigger action */}
-          <div className="w-full max-w-sm bg-stone-900/50 border border-stone-800/80 p-8 rounded-2xl backdrop-blur-md text-center space-y-5 shadow-xl">
-            <div className="w-12 h-12 bg-amber-950/60 text-amber-400 rounded-full flex items-center justify-center mx-auto border border-amber-900/40">
-              <Shield className="w-6 h-6 animate-pulse" />
+        {/* ── STATS BAR ── */}
+        <section className="relative z-10 border-y border-stone-800/60 bg-stone-900/30 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-6 py-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              {[
+                { value: "350+", label: "Curated Pieces" },
+                { value: "4", label: "Global Sourcing Markets" },
+                { value: "₦580k", label: "Highest Sale" },
+                { value: "100%", label: "Provenance Verified" },
+              ].map((stat, i) => (
+                <div key={i} className="space-y-1">
+                  <p className="font-serif text-3xl font-bold text-white">{stat.value}</p>
+                  <p className="text-[11px] font-mono text-stone-500 uppercase tracking-wider">{stat.label}</p>
+                </div>
+              ))}
             </div>
-            <div className="space-y-1.5">
-              <h3 className="font-serif text-lg font-bold text-white italic">Unlock FitCheck</h3>
-              <p className="text-xs text-stone-400">Takes less than 60 seconds with simulated code verification delivery.</p>
+          </div>
+        </section>
+
+        {/* ── HOW IT WORKS ── */}
+        <section className="relative z-10 py-24 px-6">
+          <div className="max-w-7xl mx-auto space-y-14">
+            <div className="text-center space-y-3">
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-jumia-orange">Simple Process</span>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">How FitCheck works</h2>
             </div>
-            
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  step: "01",
+                  title: "Create your account",
+                  desc: "Sign up in under 60 seconds with SMS verification. Your account unlocks live bidding, flat-measured sizing data, and the personal vault.",
+                  icon: <User className="w-6 h-6" />
+                },
+                {
+                  step: "02",
+                  title: "Browse & bid live",
+                  desc: "Explore pieces from Portobello, Shimokitazawa, Brooklyn, and Milan. Place real-time bids or buy instantly with our secure checkout.",
+                  icon: <ShoppingBag className="w-6 h-6" />
+                },
+                {
+                  step: "03",
+                  title: "Receive & wear",
+                  desc: "Every piece ships wax-sealed via DHL Express with a physical provenance certificate. Delivered to your door in 2–4 business days.",
+                  icon: <Shield className="w-6 h-6" />
+                }
+              ].map((item, i) => (
+                <div key={i} className="bg-stone-900/60 border border-stone-800 rounded-2xl p-7 space-y-4 hover:border-stone-700 transition-colors group">
+                  <div className="flex items-center justify-between">
+                    <div className="w-12 h-12 bg-jumia-orange/10 border border-jumia-orange/20 rounded-xl flex items-center justify-center text-jumia-orange group-hover:bg-jumia-orange/20 transition-colors">
+                      {item.icon}
+                    </div>
+                    <span className="font-mono text-4xl font-black text-stone-800">{item.step}</span>
+                  </div>
+                  <h3 className="font-serif text-lg font-bold text-white">{item.title}</h3>
+                  <p className="text-stone-400 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SOURCING MARKETS ── */}
+        <section className="relative z-10 py-20 px-6 bg-stone-900/20">
+          <div className="max-w-7xl mx-auto space-y-12">
+            <div className="text-center space-y-3">
+              <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-jumia-orange">Where We Source</span>
+              <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white">The world's finest vintage markets</h2>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { city: "London", market: "Portobello Road", img: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&q=80" },
+                { city: "Tokyo", market: "Shimokitazawa", img: "https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5c?w=400&q=80" },
+                { city: "Brooklyn", market: "Brooklyn Flea", img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&q=80" },
+                { city: "Milan", market: "Navigli Canal", img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=80" },
+              ].map((m, i) => (
+                <div key={i} className="relative rounded-xl overflow-hidden group cursor-pointer aspect-[4/5]">
+                  <img src={m.img} alt={m.city} className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4">
+                    <p className="font-serif text-lg font-bold text-white">{m.city}</p>
+                    <p className="text-[10px] font-mono text-stone-300 uppercase tracking-wider">{m.market}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA BANNER ── */}
+        <section className="relative z-10 py-24 px-6">
+          <div className="max-w-3xl mx-auto text-center space-y-8">
+            <h2 className="font-serif text-4xl sm:text-5xl font-bold leading-tight">
+              Ready to find your<br />
+              <span className="text-jumia-orange italic">perfect vintage piece?</span>
+            </h2>
+            <p className="text-stone-400 text-base leading-relaxed">
+              Join thousands of collectors and fashion archivists who trust FitCheck for authenticated vintage. Create your free account in seconds.
+            </p>
             <button
               onClick={() => setIsAuthModalOpen(true)}
-              className="w-full py-3 bg-jumia-orange hover:bg-opacity-90 hover:scale-[1.01] transform text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+              className="inline-flex items-center gap-2 bg-jumia-orange hover:bg-[#E07A13] text-white font-bold px-10 py-4 rounded-xl text-sm uppercase tracking-wider transition-all shadow-xl shadow-orange-900/30 cursor-pointer"
             >
-              <span>Initialize Sign-Up Verification</span>
+              <ShoppingBag className="w-4 h-4" />
+              Enter the Showroom
             </button>
+            <p className="text-[11px] text-stone-600 font-mono">Free to join · No credit card required · SMS verified</p>
           </div>
-        </div>
+        </section>
 
-        {/* Footer info lock indicator */}
-        <footer className="border-t border-stone-800/60 py-6 text-center text-[10px] text-stone-500 font-mono relative z-10 uppercase tracking-widest bg-stone-950/10">
-          FITCHECK © 2026 • LOCKED CATALOG SECURITY SUITE
+        {/* ── FOOTER ── */}
+        <footer className="relative z-10 border-t border-stone-800/60 py-8 px-6">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <div className="bg-jumia-orange text-white px-2.5 py-1 rounded-lg font-black text-sm">
+                Fit<span className="font-serif italic">Check</span>
+              </div>
+              <span className="text-stone-600 text-[10px] font-mono uppercase tracking-widest">© {new Date().getFullYear()}</span>
+            </div>
+            <div className="flex gap-6 text-[11px] text-stone-600 font-mono uppercase tracking-wider">
+              <span className="hover:text-stone-400 cursor-pointer transition-colors">Buyer Protection</span>
+              <span className="hover:text-stone-400 cursor-pointer transition-colors">Terms of Auction</span>
+              <span className="hover:text-stone-400 cursor-pointer transition-colors">Sizing Guide</span>
+            </div>
+          </div>
         </footer>
 
-        {/* Auths Modal triggered directly - with strict hideCloseButton enforcement */}
+        {/* Auth Modal */}
         <AuthModal
           isOpen={isAuthModalOpen}
           onClose={() => setIsAuthModalOpen(false)}
           onAuthSuccess={handleAuthSuccess}
-          hideCloseButton={true}
+          hideCloseButton={false}
         />
       </div>
     );
