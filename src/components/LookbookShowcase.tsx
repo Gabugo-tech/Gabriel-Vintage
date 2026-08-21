@@ -43,12 +43,12 @@ export default function LookbookShowcase({ lookbooks, items, onSelectItem }: Loo
               }`}
             >
               {/* Editorial aesthetic portrait */}
-              <div className="w-full xl:w-1/2 relative min-h-[350px] lg:min-h-[450px] rounded-2.5xl overflow-hidden bg-stone-100 shadow-md">
+              <div className="w-full xl:w-1/2 relative min-h-[350px] lg:min-h-[450px] rounded-2xl overflow-hidden bg-stone-100 shadow-md">
                 <img
                   src={lookbook.imageUrl}
                   alt={lookbook.title}
                   referrerPolicy="no-referrer"
-                  className="absolute inset-0 w-full h-full object-cover transform duration-1000 hover:scale-103"
+                  className="absolute inset-0 w-full h-full object-cover transform duration-1000 hover:scale-[1.03]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 sm:p-10 flex flex-col justify-end text-white">
                   <div className="flex flex-wrap gap-1.5 mb-3">
@@ -74,7 +74,7 @@ export default function LookbookShowcase({ lookbooks, items, onSelectItem }: Loo
               <div className="w-full xl:w-1/2 flex flex-col justify-between py-2 space-y-6">
                 <div>
                   <h4 className="font-mono text-xs uppercase tracking-widest text-[#1C1A17] font-bold pb-3 border-b border-[#EBE8DF] flex items-center gap-2">
-                    <Sparkles className="w-4.5 h-4.5 text-amber-600 animate-pulse" />
+                    <Sparkles className="w-5 h-5 text-amber-600 animate-pulse" />
                     Featured Closet Pieces Inside This Look ({featuredItems.length})
                   </h4>
 
@@ -84,7 +84,7 @@ export default function LookbookShowcase({ lookbooks, items, onSelectItem }: Loo
                         key={item.id}
                         onClick={() => onSelectItem(item)}
                         id={`lookbook_item_card_${item.id}`}
-                        className="group flex gap-4 p-4.5 bg-[#FAF9F5] hover:bg-white border border-[#EBE8DF] hover:border-amber-700/50 rounded-2xl cursor-pointer transition-all shadow-xs hover:shadow-md"
+                        className="group flex gap-4 p-4 bg-[#FAF9F5] hover:bg-white border border-[#EBE8DF] hover:border-amber-700/50 rounded-2xl cursor-pointer transition-all shadow-xs hover:shadow-md"
                       >
                         {/* Circle photo */}
                         <img
@@ -110,7 +110,7 @@ export default function LookbookShowcase({ lookbooks, items, onSelectItem }: Loo
 
                           <div className="flex justify-between items-center pt-2">
                             <span className="text-xs text-[#544E45] font-mono">
-                              Current Bid: <strong className="text-stone-900">${item.currentBid}</strong>
+                              Current Bid: <strong className="text-stone-900">₦{item.currentBid}</strong>
                             </span>
                             <span className="text-xs font-mono font-bold text-amber-700 group-hover:text-[#1C1A17] flex items-center gap-1">
                               <span>Examine Piece</span>
@@ -130,7 +130,7 @@ export default function LookbookShowcase({ lookbooks, items, onSelectItem }: Loo
                     <strong className="text-[#1C1A17]">Exclusive Curation Advantage</strong>
                   </div>
                   <p className="text-[#6B6152] leading-relaxed text-[11px]">
-                    Sourcing lookbook sets directly grants a <strong>$15 reduction on combined shipping charges</strong> across booth catalogs. Each package leaves our clean room inspected and courier insured.
+                    Sourcing lookbook sets directly grants a <strong>₦2,500 reduction on combined shipping charges</strong> across booth catalogs. Each package leaves our clean room inspected and courier insured.
                   </p>
                 </div>
               </div>

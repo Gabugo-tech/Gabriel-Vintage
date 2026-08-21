@@ -50,6 +50,12 @@ export default function AdminDashboard({
   const [editedPrice, setEditedPrice] = useState<string>("");
   const [editedTitle, setEditedTitle] = useState<string>("");
   const [priceCutReason, setPriceCutReason] = useState<string>("");
+  const [adminToast, setAdminToast] = useState<string | null>(null);
+
+  const showAdminToast = (msg: string) => {
+    setAdminToast(msg);
+    setTimeout(() => setAdminToast(null), 4000);
+  };
   
   // Quick pre-packaged premium listing generator (no bots, just a 1-click admin developer mock action)
   const [previewAddTitle, setPreviewAddTitle] = useState("");
@@ -119,7 +125,7 @@ export default function AdminDashboard({
   const handleSaveEdits = (itemId: string) => {
     const parsedPrice = parseFloat(editedPrice);
     if (isNaN(parsedPrice) || parsedPrice <= 0) {
-      alert("Please specify a valid numeric listing price.");
+      showAdminToast("⚠ Please specify a valid numeric listing price.");
       return;
     }
 
@@ -150,7 +156,7 @@ export default function AdminDashboard({
   const triggerRandomPriceCut = () => {
     const unsold = items.filter(i => !i.isSold && !i.bidDropped);
     if (unsold.length === 0) {
-      alert("No available unsold items to price cut currently!");
+      showAdminToast("⚠ No available unsold items to price cut currently!");
       return;
     }
     const targetItem = unsold[Math.floor(Math.random() * unsold.length)];
@@ -176,14 +182,14 @@ export default function AdminDashboard({
     safeLocalStorage.setItem("vintage_items_list", JSON.stringify(updated));
     window.dispatchEvent(new Event("storage"));
 
-    alert(`Applied 15% Admin Price Cut on: "${targetItem.title}" (₦${originalPrice} NGN -> ₦${cutPrice} NGN) successfully inside active catalogs!`);
+    showAdminToast(`✅ Applied 15% Price Cut on: "${targetItem.title}" (₦${originalPrice.toLocaleString()} → ₦${cutPrice.toLocaleString()})`);
   };
 
   // Admin manually registers a live bid to bid logs
   const handleManualListingCreate = (e: React.FormEvent) => {
     e.preventDefault();
     if (!previewAddTitle.trim()) {
-      alert("Please provide a title");
+      showAdminToast("⚠ Please provide a title");
       return;
     }
 
@@ -223,7 +229,7 @@ export default function AdminDashboard({
     safeLocalStorage.setItem("vintage_items_list", JSON.stringify(updated));
     window.dispatchEvent(new Event("storage"));
 
-    alert(`Successfully listed "${newItem.title}" into database live in real-time!`);
+    showAdminToast(`✅ Successfully listed "${newItem.title}" live in the catalog!`);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -284,8 +290,14 @@ export default function AdminDashboard({
 
   return (
     <div className="space-y-8 animate-fade-in" id="admin_dashboard_workspace">
-      
-      {/* Dashboard Brand Header */}
+
+      {/* Inline admin toast notification */}
+      {adminToast && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-stone-900 border border-jumia-orange text-amber-300 px-5 py-3 rounded-xl shadow-2xl text-xs font-mono font-bold animate-fade-in flex items-center gap-2 max-w-lg w-full mx-4">
+          <span className="w-2 h-2 rounded-full bg-jumia-orange animate-ping shrink-0"></span>
+          {adminToast}
+        </div>
+      )}
       <div className="bg-[#313131] text-[#FAF9F5] p-6 rounded-2xl border border-stone-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
@@ -333,7 +345,7 @@ export default function AdminDashboard({
           </div>
           <div>
             <p className="text-[10px] font-mono text-stone-400 dark:text-stone-500 uppercase font-black">Catalog Stock Value</p>
-            <h4 className="text-lg font-extrabold text-stone-900 dark:text-stone-100 font-mono">₦{totalBidCapital} NGN</h4>
+            <h4 className="text-lg font-extrabold text-stone-900 dark:text-stone-100 font-mono">₦{totalBidCapital.toLocaleString()} NGN</h4>
           </div>
         </div>
 
@@ -580,17 +592,25 @@ export default function AdminDashboard({
                                 value={editedTitle} 
                                 onChange={(e) => setEditedTitle(e.target.value)}
                                 className="bg-white border border-stone-300 p-1 rounded font-bold text-stone-900 text-xs w-full max-w-xs"
+                                placeholder="Item title"
                               />
                               <div className="flex items-center gap-2">
-                                <span className="font-mono text-[10px]">PriceCut NGN:</span>
+                                <span className="font-mono text-[10px] shrink-0">Price ₦:</span>
                                 <input 
                                   type="number" 
                                   value={editedPrice} 
                                   onChange={(e) => setEditedPrice(e.target.value)}
-                                  className="bg-white border border-stone-300 p-0.5 rounded font-mono text-xs w-16"
+                                  className="bg-white border border-stone-300 p-0.5 rounded font-mono text-xs w-20"
                                   title="Set current price"
                                 />
                               </div>
+                              <input
+                                type="text"
+                                value={priceCutReason}
+                                onChange={(e) => setPriceCutReason(e.target.value)}
+                                placeholder="Price cut reason (optional)"
+                                className="bg-white border border-stone-300 p-1 rounded text-stone-700 text-[10px] w-full max-w-xs font-mono"
+                              />
                             </div>
                           ) : (
                             <h4 className="font-sans font-bold text-stone-900 dark:text-stone-100 line-clamp-1">{item.title}</h4>
@@ -598,7 +618,7 @@ export default function AdminDashboard({
                           
                           <div className="flex flex-wrap gap-2 text-[10px] text-stone-500 font-mono pt-0.5">
                             <span className="bg-stone-100 dark:bg-stone-800 px-1 py-0.5 rounded text-stone-700 dark:text-stone-300">size {item.size}</span>
-                            <span className="bg-orange-50 dark:bg-orange-950/40 px-1 py-0.5 rounded text-jumia-orange dark:text-orange-400 font-bold">price: ₦{item.currentBid}</span>
+                            <span className="bg-orange-50 dark:bg-orange-950/40 px-1 py-0.5 rounded text-jumia-orange dark:text-orange-400 font-bold">price: ₦{item.currentBid.toLocaleString()}</span>
                             {item.bidDropped && (
                               <span className="bg-teal-50 dark:bg-teal-950/30 text-teal-700 dark:text-teal-400 px-1 py-0.5 rounded border border-teal-200 dark:border-teal-900/50 font-bold">
                                 ↓ price cut
@@ -683,8 +703,8 @@ export default function AdminDashboard({
                 <tr key={bid.id || idx} className="hover:bg-stone-50/50 transition-colors">
                   <td className="py-2.5 text-stone-800 font-bold">{bid.bidderName}</td>
                   <td className="py-2.5 text-stone-600 font-medium max-w-[200px] truncate">{bid.itemTitle}</td>
-                  <td className="py-2.5 text-jumia-orange font-mono font-extrabold">₦{bid.amount}</td>
-                  <td className="py-2.5 text-stone-400 text-[10px] font-mono">{new Date(bid.timestamp).toLocaleTimeString()}</td>
+                  <td className="py-2.5 text-jumia-orange font-mono font-extrabold">₦{bid.amount.toLocaleString()}</td>
+                  <td className="py-2.5 text-stone-400 text-[10px] font-mono">{new Date(bid.timestamp).toLocaleDateString()} {new Date(bid.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</td>
                   <td className="py-2.5">
                     <span className="text-[9px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-1.5 py-0.5 rounded-full font-bold">
                       ✓ Authenticity Checked

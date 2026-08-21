@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { VintageItem, BidRecord } from "../types";
 import { safeLocalStorage } from "../lib/storage";
-import { User, Heart, ShieldCheck, Trash, Store, Edit2, CheckCircle, Tag, ShoppingBag } from "lucide-react";
-import { motion } from "motion/react";
+import { Heart, ShieldCheck, Store, Edit2, CheckCircle } from "lucide-react";
 
 interface ClosetHubProps {
   items: VintageItem[];
@@ -10,38 +9,34 @@ interface ClosetHubProps {
   purchasedItemIds: string[];
   onSelectItem: (item: VintageItem) => void;
   onClearPurchases: () => void;
+  wishlist: string[];
+  currentUserName?: string;
 }
 
-export default function ClosetHub({ items, bidLogs, purchasedItemIds, onSelectItem, onClearPurchases }: ClosetHubProps) {
-  const [userName, setUserName] = useState("Anonymous Archivist");
+export default function ClosetHub({ items, bidLogs, purchasedItemIds, onSelectItem, onClearPurchases, wishlist, currentUserName }: ClosetHubProps) {
+  const [userName, setUserName] = useState(currentUserName || "Anonymous Archivist");
   const [isEditingName, setIsEditingName] = useState(false);
-  const [nameInputValue, setNameInputValue] = useState("");
-  const [wishlistIds, setWishlistIds] = useState<string[]>([]);
+  const [nameInputValue, setNameInputValue] = useState(currentUserName || "");
 
-  // Sync state from localStorage
+  // Stable custodian number so it doesn't re-roll on every render
+  const custodianNumber = useMemo(() => Math.floor(Math.random() * 8000 + 1000), []);
+
+  // Sync state from localStorage, falling back to prop
   useEffect(() => {
-    const savedName = safeLocalStorage.getItem("vintage_auth_name") || safeLocalStorage.getItem("vintage_bidder_name") || "Anonymous Archivist";
+    const savedName = currentUserName || safeLocalStorage.getItem("user_name") || safeLocalStorage.getItem("vintage_bidder_name") || "Anonymous Archivist";
     setUserName(savedName);
     setNameInputValue(savedName);
-
-    try {
-      const storedWish = JSON.parse(safeLocalStorage.getItem("vintage_wishlist") || "[]");
-      setWishlistIds(storedWish);
-    } catch (e) {
-      setWishlistIds([]);
-    }
-  }, []);
+  }, [currentUserName]);
 
   const handleSaveName = () => {
     if (!nameInputValue.trim()) return;
     safeLocalStorage.setItem("vintage_bidder_name", nameInputValue.trim());
     setUserName(nameInputValue.trim());
     setIsEditingName(false);
-    alert("Archivist Alias updated successfully!");
   };
 
-  // Find wishlist item models
-  const bookmarkedItems = items.filter((item) => wishlistIds.includes(item.id));
+  // Wishlist driven by live prop from parent
+  const bookmarkedItems = items.filter((item) => wishlist.includes(item.id));
 
   // Calculate items purchased or won by the user
   const wonItems = items.filter((item) => {
@@ -57,7 +52,7 @@ export default function ClosetHub({ items, bidLogs, purchasedItemIds, onSelectIt
       
       {/* Profile Bio block */}
       <div className="bg-[#1C1A17] text-[#FAF9F5] p-6 sm:p-10 rounded-2xl border border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-4.5">
+        <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-amber-500 flex items-center justify-center text-[#1C1A17] font-serif text-3xl font-bold border border-amber-300">
             {userName.charAt(0).toUpperCase()}
           </div>
@@ -91,7 +86,7 @@ export default function ClosetHub({ items, bidLogs, purchasedItemIds, onSelectIt
                 </div>
               )}
             </div>
-            <p className="font-mono text-xs text-amber-400"> Gabriel Licensed Custodian #V-{Math.floor(Math.random() * 8000 + 1000)}</p>
+            <p className="font-mono text-xs text-amber-400"> Gabriel Licensed Custodian #V-{custodianNumber}</p>
           </div>
         </div>
 
@@ -223,7 +218,7 @@ export default function ClosetHub({ items, bidLogs, purchasedItemIds, onSelectIt
               <div
                 key={item.id}
                 onClick={() => onSelectItem(item)}
-                className="bg-[#FAF9F5] hover:bg-white border border-[#EBE8DF] rounded-xl p-4.5 cursor-pointer transition-all flex flex-col justify-between"
+                className="bg-[#FAF9F5] hover:bg-white border border-[#EBE8DF] rounded-xl p-4 cursor-pointer transition-all flex flex-col justify-between"
               >
                 <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden mb-3">
                   <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover" />

@@ -69,13 +69,17 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
   // Custom image selection
   const [selectedPresetImage, setSelectedPresetImage] = useState(PRESET_CLOTHING_IMAGES[0].url);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [formError, setFormError] = useState("");
 
   const isAdmin = userEmail.trim().toLowerCase() === "darcywon644@gmail.com" || userEmail.trim().toLowerCase() === "darcywon664@gmail.com";
 
   const handleElevateAdmin = () => {
-    safeLocalStorage.setItem("user_email", "darcywon644@gmail.com");
-    window.dispatchEvent(new Event("storage"));
-    window.location.reload();
+    if (window.confirm("This will sign you in as the admin account (darcywon644@gmail.com). Continue?")) {
+      safeLocalStorage.setItem("user_email", "darcywon644@gmail.com");
+      safeLocalStorage.setItem("user_name", "Darcy");
+      window.dispatchEvent(new Event("storage"));
+      window.location.reload();
+    }
   };
 
   if (!isAdmin) {
@@ -115,9 +119,10 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError("");
 
     if (!title.trim() || !description.trim()) {
-      alert("Please provide a Title and Description for your garment.");
+      setFormError("Please provide a Title and Description for your garment.");
       return;
     }
 
@@ -131,7 +136,7 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
     // If making a custom new stall
     if (boothMode === "create") {
       if (!customBoothName.trim() || !customBoothCurator.trim()) {
-        alert("Please specify your Custom Stall Name and Curator Name.");
+        setFormError("Please specify your Custom Stall Name and Curator Name.");
         return;
       }
       const newBoothId = `booth-custom-${Date.now()}`;
@@ -196,6 +201,7 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
     setDescription("");
     setHistory("");
     setBuyPrice("");
+    setFormError("");
     setShowSuccess(true);
     
     setTimeout(() => {
@@ -279,7 +285,7 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
               </select>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4.5 bg-amber-50/40 rounded-xl border border-amber-200/50" id="create_booth_subform">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-amber-50/40 rounded-xl border border-amber-200/50" id="create_booth_subform">
               <div className="space-y-1">
                 <label className="text-[10px] font-mono text-amber-900 font-bold block uppercase">Custom Stall Name</label>
                 <input
@@ -489,12 +495,12 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
 
             <div className="sm:col-span-3 space-y-1">
               <label className="text-[10px] font-mono text-[#544E45] font-bold block uppercase">Brief Curatorial Item Snippet</label>
-              <input
-                type="text"
+              <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Write a clear summary of of the garment, shape, condition details"
-                className="w-full bg-[#FAF9F5] border border-[#DCD9CE] p-3 rounded-lg text-sm outline-none"
+                placeholder="Write a clear summary of the garment, shape, condition details"
+                rows={3}
+                className="w-full bg-[#FAF9F5] border border-[#DCD9CE] p-3 rounded-lg text-sm outline-none resize-none"
                 required
               />
             </div>
@@ -514,7 +520,13 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
         </div>
 
         {/* Submit banner */}
-        <div className="pt-6 border-t border-[#EBE8DF] flex justify-end">
+        <div className="pt-6 border-t border-[#EBE8DF] flex flex-col items-end gap-3">
+          {formError && (
+            <div className="w-full flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 text-xs font-semibold px-4 py-2.5 rounded-lg">
+              <span className="w-1.5 h-1.5 bg-red-600 rounded-full shrink-0"></span>
+              {formError}
+            </div>
+          )}
           <button
             type="submit"
             id="publish_garment_btn"

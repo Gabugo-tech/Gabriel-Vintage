@@ -187,7 +187,7 @@ export default function VendorProfile({
         <div className="p-6 sm:p-8 bg-white grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           <div className="lg:col-span-2 space-y-3.5">
             <h3 className="font-serif text-lg font-bold text-stone-950 flex items-center gap-1.5">
-              <Award className="w-4.5 h-4.5 text-amber-600" />
+              <Award className="w-5 h-5 text-amber-600" />
               Curator Retrospective & Mission statement
             </h3>
             <p className="text-sm text-stone-800 leading-relaxed font-sans first-letter:text-3xl first-letter:font-serif first-letter:float-left first-letter:mr-2">
@@ -255,7 +255,7 @@ export default function VendorProfile({
                         src={item.imageUrl}
                         alt={item.title}
                         referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                       />
                       {item.isSold && (
                         <div className="absolute inset-0 bg-[#1C1A17]/70 backdrop-blur-xs flex items-center justify-center">
@@ -306,7 +306,7 @@ export default function VendorProfile({
             <span className="text-amber-500 font-mono text-xs font-bold leading-none">★ {booth.rating.toFixed(1)}</span>
           </div>
 
-          <div className="space-y-4 max-h-[600px] overflow-y-auto pr-1 no-scrollbar-y">
+          <div className="space-y-4 max-h-[600px] overflow-y-auto pr-1 no-scrollbar">
             {reviewsForThisBooth.length > 0 ? (
               reviewsForThisBooth.map((review) => (
                 <div

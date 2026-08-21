@@ -76,12 +76,21 @@ export default function Navbar({
   const [showAccountDropdown, setShowAccountDropdown] = useState(false);
   const [emailInput, setEmailInput] = useState(userEmail);
   const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Keep emailInput in sync when prop changes (e.g. after Google sign-in)
+  useEffect(() => {
+    setEmailInput(userEmail);
+  }, [userEmail]);
   const suggestionsContainerRef = useRef<HTMLDivElement>(null);
+  const accountDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (suggestionsContainerRef.current && !suggestionsContainerRef.current.contains(event.target as Node)) {
         setShowSuggestions(false);
+      }
+      if (accountDropdownRef.current && !accountDropdownRef.current.contains(event.target as Node)) {
+        setShowAccountDropdown(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -231,6 +240,15 @@ export default function Navbar({
                     setCurrentTab("browse");
                   }
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setShowSuggestions(false);
+                    if (currentTab !== "browse") setCurrentTab("browse");
+                  }
+                  if (e.key === "Escape") {
+                    setShowSuggestions(false);
+                  }
+                }}
                 placeholder="Search single-stitches, leathers, eras or sizes..."
                 className="w-full bg-[#FAF9F5] border-2 border-stone-200 focus:border-jumia-orange rounded-l-lg p-3 pl-10 text-sm font-sans outline-none transition-colors text-stone-900"
               />
@@ -295,7 +313,7 @@ export default function Navbar({
           <div className="flex items-center gap-4 sm:gap-5 font-sans text-xs sm:text-sm font-medium" id="header_right_controls">
             
             {/* Account dropdown / SMS Sign Up trigger */}
-            <div className="relative">
+            <div className="relative" ref={accountDropdownRef}>
               <button 
                 onClick={() => setShowAccountDropdown(!showAccountDropdown)}
                 className="flex items-center gap-1 text-stone-800 hover:text-jumia-orange py-2 px-1 transition-colors cursor-pointer"

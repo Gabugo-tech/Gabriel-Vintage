@@ -47,8 +47,31 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
+  // Reset all state when modal is opened/closed
+  useEffect(() => {
+    if (!isOpen) {
+      setIsVerifying(false);
+      setVerificationSuccess(false);
+      setUserEnteredCode("");
+      setVerificationError("");
+      setSimulationToast(null);
+      setCountdown(60);
+      setFieldErrors({});
+    }
+  }, [isOpen]);
+
   // Auto focus first empty input field when mode or modal toggles
   useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        if (authMode === "register" && nameInputRef.current) {
+          nameInputRef.current.focus();
+        } else if (authMode === "login" && emailInputRef.current) {
+          emailInputRef.current.focus();
+        }
+      }, 155);
+    }
+  }, [isOpen, authMode]);
     if (isOpen) {
       setTimeout(() => {
         if (authMode === "register" && nameInputRef.current) {
@@ -131,14 +154,13 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
   const [simulationToast, setSimulationToast] = useState<string | null>(null);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isVerifying && countdown > 0 && !verificationSuccess) {
-      timer = setInterval(() => {
-        setCountdown((prev) => prev - 1);
-      }, 1000);
-    }
+    if (!isVerifying || verificationSuccess) return;
+    if (countdown <= 0) return;
+    const timer = setInterval(() => {
+      setCountdown((prev) => prev - 1);
+    }, 1000);
     return () => clearInterval(timer);
-  }, [isVerifying, countdown, verificationSuccess]);
+  }, [isVerifying, verificationSuccess, countdown]);
 
   if (!isOpen) return null;
 
@@ -217,9 +239,23 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
     if (authMode === "register") {
       triggerVerification("sms", phone);
     } else {
-      // Login simulation - authenticate straight away or simulated quick MFA
+      // Login: check stored registered users
+      let registeredUsers: { name: string; email: string; phone: string; isVerified: boolean }[] = [];
+      try {
+        registeredUsers = JSON.parse(safeLocalStorage.getItem("gabriel_registered_users") || "[]");
+      } catch (_) {}
+
+      const matchedUser = registeredUsers.find(
+        (u) => u.email.trim().toLowerCase() === email.trim().toLowerCase()
+      );
+
+      if (registeredUsers.length > 0 && !matchedUser) {
+        setFieldErrors({ email: "No account found with this email. Please register first." });
+        return;
+      }
+
       setSimulationToast("🔒 SECURE LOGIN AUTH: Access request authorized successfully!");
-      onAuthSuccess(email, phone || "+244 955 120190", name || "Verified Customer");
+      onAuthSuccess(email, matchedUser?.phone || phone || "+244 955 120190", matchedUser?.name || name || "Verified Customer");
       setTimeout(() => {
         onClose();
         setSimulationToast(null);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MarketBooth } from "../types";
 import { MapPin, Calendar, Star, ArrowRight, Award } from "lucide-react";
 import { motion } from "motion/react";
@@ -43,6 +43,7 @@ interface MarketDirectoryProps {
 }
 
 export default function MarketDirectory({ booths, onSelectBooth, itemCounts }: MarketDirectoryProps) {
+  const [applicationSent, setApplicationSent] = useState(false);
   return (
     <div className="space-y-12 animate-fade-in" id="market_directory_container">
       {/* Editorial Header */}
@@ -172,12 +173,23 @@ export default function MarketDirectory({ booths, onSelectBooth, itemCounts }: M
             We onboard physical boutique owners who seek to dodge fast-fashion listing models. Apply to list your physical vintage market box on Atelier, enable authentic auction-bidding processes, and directly reach true archivists.
           </p>
         </div>
-        <button 
-          onClick={() => alert("Curator application is currently under scheduled review for the Summer season. Custom shop registrations are fully enabled inside: 'Curate a Piece'!")}
-          className="bg-[#FAF9F5] text-[#1C1A17] hover:bg-[#FAF9F5]/90 transition-all font-medium py-3.5 px-6 rounded-lg text-sm whitespace-nowrap shadow-sm"
-        >
-          Request Curated Verify
-        </button>
+        <div className="flex flex-col items-start sm:items-end gap-3">
+          {applicationSent ? (
+            <div className="bg-emerald-900/60 border border-emerald-700 text-emerald-300 px-5 py-3 rounded-lg text-xs font-mono font-bold">
+              ✓ Application received — our team will reach out within 48 hrs!
+            </div>
+          ) : (
+            <button
+              onClick={() => setApplicationSent(true)}
+              className="bg-[#FAF9F5] text-[#1C1A17] hover:bg-[#FAF9F5]/90 transition-all font-medium py-3.5 px-6 rounded-lg text-sm whitespace-nowrap shadow-sm"
+            >
+              Request Curated Verify
+            </button>
+          )}
+          <p className="text-[10px] text-stone-500 font-mono max-w-xs text-right">
+            Custom shop registrations are also enabled inside the <strong className="text-stone-400">Curate a Piece</strong> tab.
+          </p>
+        </div>
       </div>
     </div>
   );

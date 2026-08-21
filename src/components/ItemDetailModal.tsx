@@ -124,13 +124,13 @@ export default function ItemDetailModal({
 
   // Auto-fill buyer particulars from Auth or localStorage
   useEffect(() => {
-    const savedName = safeLocalStorage.getItem("vintage_auth_name") || safeLocalStorage.getItem("vintage_bidder_name") || "";
-    const savedEmail = safeLocalStorage.getItem("vintage_auth_email") || "";
-    const savedPhone = safeLocalStorage.getItem("vintage_auth_phone") || "";
+    const savedName = safeLocalStorage.getItem("user_name") || safeLocalStorage.getItem("vintage_bidder_name") || "";
+    const savedEmail = safeLocalStorage.getItem("user_email") || "";
+    const savedPhone = safeLocalStorage.getItem("user_phone") || "";
     setBuyerName(savedName);
     setCardHolder(savedName || "ARCHIVAL GUEST");
-    setBuyerEmail(savedEmail || "darcywon644@gmail.com");
-    setBuyerPhone(savedPhone || "0755319800");
+    setBuyerEmail(savedEmail);
+    setBuyerPhone(savedPhone);
   }, [item]);
 
   // Synchronise custom bid input to (current highest bid + 10) on load or item change
@@ -245,7 +245,7 @@ export default function ItemDetailModal({
       
       setTimeout(() => {
         onClose();
-      }, 2500);
+      }, 3500);
     }, 2400);
   };
 
@@ -347,7 +347,7 @@ export default function ItemDetailModal({
           <hr className="border-[#EBE8DF]" />
 
           {/* Sizing, Direct buyout pricing specifications */}
-          <div className="bg-[#1C1A17] text-[#FAF9F5] p-4.5 rounded-xl border border-stone-800 space-y-3 shadow-inner">
+          <div className="bg-[#1C1A17] text-[#FAF9F5] p-4 rounded-xl border border-stone-800 space-y-3 shadow-inner">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-1.5 font-mono text-xs text-stone-400">
                 <Shield className="w-4 h-4 text-emerald-400" />
@@ -381,7 +381,7 @@ export default function ItemDetailModal({
 
           {/* Interactive Address Order & Checkout Form */}
           {item.isSold ? (
-            <div className="bg-emerald-50 border border-emerald-300 p-4.5 rounded-xl flex items-center gap-3.5 text-emerald-950 animate-fade-in">
+            <div className="bg-emerald-50 border border-emerald-300 p-4 rounded-xl flex items-center gap-3 text-emerald-950 animate-fade-in">
               <CheckCircle className="w-6 h-6 text-emerald-600 shrink-0" />
               <div>
                 <p className="font-bold text-sm">Archival Piece Secured & Sold • Closed</p>
@@ -488,7 +488,7 @@ export default function ItemDetailModal({
                           ⚡ PREDEFINED QUICK BID INCREMENTS
                         </span>
                         <div className="grid grid-cols-3 gap-2">
-                          {[10, 50, 100].map((inc) => {
+                          {[50, 100, 250].map((inc) => {
                             const baseVal = item.currentBid || item.startingBid || 100;
                             const possibleBid = baseVal + inc;
                             const isSelected = customBidAmount === possibleBid;
@@ -561,7 +561,7 @@ export default function ItemDetailModal({
                       <ShoppingCart className="w-3.5 h-3.5" />
                       SECURE ARCHIVIST ORDER FORM
                     </span>
-                    <span className="text-[10px] text-[#877F70] font-mono bg-white px-2 py-0.5 rounded border border-stone-200">Insured Delivery Delivery</span>
+                    <span className="text-[10px] text-[#877F70] font-mono bg-white px-2 py-0.5 rounded border border-stone-200">Insured Delivery</span>
                   </div>
 
                   {successMsg ? (
@@ -781,7 +781,7 @@ export default function ItemDetailModal({
 
                               <div className="grid grid-cols-3 gap-2">
                                 <div className="col-span-2 space-y-1">
-                                  <label className="text-[8.5px] font-mono text-[#544E45] uppercase block font-bold">Cardholder Name Name</label>
+                                  <label className="text-[8.5px] font-mono text-[#544E45] uppercase block font-bold">Cardholder Name</label>
                                   <input
                                     type="text"
                                     value={cardHolder}

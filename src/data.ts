@@ -105,7 +105,7 @@ export const INITIAL_ITEMS: VintageItem[] = [
     biddingEndsAt: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(), // 1 day from now
     isSold: false,
     bidDropped: true,
-    bidDroppedReason: "Previous high bidder retracted - current price dropped back to $320",
+    bidDroppedReason: "Previous high bidder retracted - current price dropped back to ₦320",
     tags: ["Sukajan", "Embroidered", "Satin", "Grailed"],
     measurements: {
       pitToPit: "20 in",
@@ -192,7 +192,7 @@ export const INITIAL_ITEMS: VintageItem[] = [
     biddingEndsAt: new Date(Date.now() + 1000 * 60 * 60 * 36).toISOString(), // 36 hours from now
     isSold: false,
     bidDropped: true,
-    bidDroppedReason: "Reserve lowered by curator - current price dropped to $290",
+    bidDroppedReason: "Reserve lowered by curator - current price dropped to ₦290",
     tags: ["HelmutLang", "PaintSplatter", "Archive", "Minimalist"],
     measurements: {
       waist: "32 in",

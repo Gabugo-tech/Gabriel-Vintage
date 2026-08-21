@@ -11,6 +11,15 @@
   --color-jumia-bg: #F5F5F5;
 }
 
+/* No-scrollbar utility */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Custom fade effects for general UI */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
@@ -19,6 +28,16 @@
 
 .animate-fade-in {
   animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Zoom-in pop for success states */
+@keyframes zoomIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-zoom-in {
+  animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Clean retro scrollbar */

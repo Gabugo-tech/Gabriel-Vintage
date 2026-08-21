@@ -109,6 +109,8 @@ export default function App() {
     setUserEmail("guest@gabrielvintage.com");
     setUserName("Guest Customer");
     setUserPhone("");
+    setCurrentTab("browse");
+    setSelectedItem(null);
   };
 
   const handleAuthSuccess = (email: string, phone: string, name: string) => {
@@ -364,22 +366,20 @@ export default function App() {
 
   // Reset vault purchases
   const handleClearPurchases = () => {
+    if (!window.confirm("Reset all vault purchases? Items will be restored to active listings.")) return;
     const cleared: string[] = [];
     const restoredItems = items.map((item) => {
       if (purchasedItemIds.includes(item.id)) {
-        return {
-          ...item,
-          isSold: false,
-          highestBidder: null
-        };
+        return { ...item, isSold: false, highestBidder: null };
       }
       return item;
     });
-
     setPurchasedItemIds(cleared);
     setItems(restoredItems);
     persistState(restoredItems, booths, bidLogs, cleared);
-    alert("Vault purchases reset successfully!");
+    if (selectedItem && purchasedItemIds.includes(selectedItem.id)) {
+      setSelectedItem(null);
+    }
   };
 
   // Add new Vintage Piece & Stall
@@ -394,6 +394,9 @@ export default function App() {
 
     setItems(updatedItems);
     persistState(updatedItems, updatedBooths, bidLogs, purchasedItemIds);
+    
+    // Broadcast to other tabs
+    window.dispatchEvent(new Event("storage"));
     
     // Auto shift focus back to collection page so they can see their live listed piece
     setCurrentTab("browse");
@@ -415,7 +418,7 @@ export default function App() {
     return counts;
   };
 
-  const activeBidCount = bidLogs.filter(b => b.bidderName.toLowerCase() === (safeLocalStorage.getItem("vintage_bidder_name") || "").toLowerCase()).length;
+  const activeBidCount = bidLogs.filter(b => b.bidderName.toLowerCase() === userName.toLowerCase() && b.bidderName !== "").length;
 
   // Jumia-style real-time search filtering helper
   const filteredItems = items.filter((item) => {
@@ -492,7 +495,7 @@ export default function App() {
             
             <button
               onClick={() => setIsAuthModalOpen(true)}
-              className="w-full py-3 bg-jumia-orange hover:bg-opacity-90 hover:scale-101 transform text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+              className="w-full py-3 bg-jumia-orange hover:bg-opacity-90 hover:scale-[1.01] transform text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
             >
               <span>Initialize Sign-Up Verification</span>
             </button>
@@ -506,8 +509,8 @@ export default function App() {
 
         {/* Auths Modal triggered directly - with strict hideCloseButton enforcement */}
         <AuthModal
-          isOpen={true}
-          onClose={() => {}}
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
           onAuthSuccess={handleAuthSuccess}
           hideCloseButton={true}
         />
@@ -553,15 +556,15 @@ export default function App() {
 
               <div className="flex flex-wrap items-center justify-center gap-6 pt-4 text-xs font-mono text-amber-300/85">
                 <span className="flex items-center gap-1.5 border-r border-[#FAF9F5]/20 pr-6 last:border-0">
-                  <Star className="w-4.5 h-4.5 fill-amber-300 text-amber-300" />
+                  <Star className="w-5 h-5 fill-amber-300 text-amber-300" />
                   No Hidden Algorithms
                 </span>
                 <span className="flex items-center gap-1.5 border-r border-[#FAF9F5]/20 pr-6 last:border-0">
-                  <Shield className="w-4.5 h-4.5 text-amber-300" />
+                  <Shield className="w-5 h-5 text-amber-300" />
                   Provenance Guaranteed
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <HelpCircle className="w-4.5 h-4.5 text-amber-300" />
+                  <HelpCircle className="w-5 h-5 text-amber-300" />
                   Flat Measured Fit Checked
                 </span>
               </div>
@@ -570,7 +573,7 @@ export default function App() {
         )}
 
         {/* Main Content Render Layout */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 dark:bg-[#131211]">
           {currentTab === "browse" && (
             <VintageGrid
               items={filteredItems}
@@ -604,6 +607,7 @@ export default function App() {
                   clearBoothFilter={() => {}}
                   wishlist={wishlist}
                   onToggleWishlist={handleToggleWishlist}
+                  isWishlistView={true}
                 />
               ) : (
                 <div className="text-center py-20 bg-[#FCFBF8] border border-dashed border-[#EBE8DF] rounded-2xl max-w-lg mx-auto" id="empty_wishlist_panel">
@@ -692,6 +696,8 @@ export default function App() {
               purchasedItemIds={purchasedItemIds}
               onSelectItem={(item) => setSelectedItem(item)}
               onClearPurchases={handleClearPurchases}
+              wishlist={wishlist}
+              currentUserName={userName}
             />
           )}
 
@@ -723,16 +729,12 @@ export default function App() {
         />
       )}
 
-      {/* Auth verification Modal flow (Forced registration for guest users prior to shopping) */}
+      {/* Auth verification Modal flow */}
       <AuthModal
-        isOpen={userEmail === "guest@gabrielvintage.com" || isAuthModalOpen}
-        onClose={() => {
-          if (userEmail !== "guest@gabrielvintage.com") {
-            setIsAuthModalOpen(false);
-          }
-        }}
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
         onAuthSuccess={handleAuthSuccess}
-        hideCloseButton={userEmail === "guest@gabrielvintage.com"}
+        hideCloseButton={false}
       />
 
       {/* Feedback Submission Modal */}
