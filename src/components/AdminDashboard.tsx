@@ -118,7 +118,7 @@ export default function AdminDashboard({
     setEditingItemId(item.id);
     setEditedPrice(item.currentBid.toString());
     setEditedTitle(item.title);
-    setPriceCutReason(item.bidDroppedReason || "Premium discount applied by Gabriel Vintage Administrator");
+    setPriceCutReason(item.bidDroppedReason || "Premium discount applied by FitCheck Administrator");
   };
 
   // Save edits (Apply a real-time price cut or titling correction)
@@ -198,13 +198,13 @@ export default function AdminDashboard({
     const newItem: VintageItem = {
       id: `item-${Date.now()}`,
       title: previewAddTitle,
-      description: `Authentic archival designer ${previewCategory} with guaranteed measuring fitment, listed live via Darcy's administrator workspace under Gabriel Vintage certification. No mock bots. Genuine curation.`,
+      description: `Authentic archival designer ${previewCategory} with guaranteed measuring fitment, listed via FitCheck admin workspace. No mock bots. Genuine curation.`,
       category: previewCategory,
       era: "90s Archival",
       condition: "Excellent (8/10 patina)",
       size: previewSize,
       sellerId: "booth-1",
-      sellerName: "Gabriel Archival Core",
+      sellerName: "FitCheck Archival Core",
       sellerAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80",
       marketName: "Shimokitazawa, Tokyo",
       imageUrl: uploadedImageUrl || "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80",
@@ -307,7 +307,7 @@ export default function AdminDashboard({
             <span className="text-stone-400 font-mono text-[10px]">v1.4.1</span>
           </div>
           <h2 className="text-2xl font-black uppercase tracking-tight font-sans">
-            Gabriel Vintage Admin Workspace
+            FitCheck Admin Workspace
           </h2>
           <p className="text-stone-300 text-xs font-mono max-w-xl leading-relaxed">
             Authorized Administrator Curator Panel: <strong className="text-emerald-400">{userEmail}</strong>. 

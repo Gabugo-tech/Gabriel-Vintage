@@ -72,16 +72,6 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
       }, 155);
     }
   }, [isOpen, authMode]);
-    if (isOpen) {
-      setTimeout(() => {
-        if (authMode === "register" && nameInputRef.current) {
-          nameInputRef.current.focus();
-        } else if (authMode === "login" && emailInputRef.current) {
-          emailInputRef.current.focus();
-        }
-      }, 155);
-    }
-  }, [isOpen, authMode]);
 
   // Verification States
   const [isVerifying, setIsVerifying] = useState(false);
@@ -199,7 +189,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
     
     // Simulate real-time carrier delivery via custom premium active notification alert
     if (type === "sms") {
-      setSimulationToast(`📱 SMS BROADCAST SUCCESS: Security Verification code [${code}] dispatched to ${targetValue} via Gabriel-Telecom-Gateway!`);
+      setSimulationToast(`📱 SMS BROADCAST SUCCESS: Security Verification code [${code}] dispatched to ${targetValue} via FitCheck-Gateway!`);
     } else {
       setSimulationToast(`📧 EMAIL BROADCAST SUCCESS: Secure verification link with passcode [${code}] routed safely to ${targetValue}!`);
     }
@@ -242,7 +232,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
       // Login: check stored registered users
       let registeredUsers: { name: string; email: string; phone: string; isVerified: boolean }[] = [];
       try {
-        registeredUsers = JSON.parse(safeLocalStorage.getItem("gabriel_registered_users") || "[]");
+        registeredUsers = JSON.parse(safeLocalStorage.getItem("fitcheck_registered_users") || "[]");
       } catch (_) {}
 
       const matchedUser = registeredUsers.find(
@@ -299,11 +289,11 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
         // Register user profiles
         let registeredUsers = [];
         try {
-          registeredUsers = JSON.parse(safeLocalStorage.getItem("gabriel_registered_users") || "[]");
+          registeredUsers = JSON.parse(safeLocalStorage.getItem("fitcheck_registered_users") || "[]");
         } catch (_) {}
         const newUser = { name, email, phone, isVerified: true, createdAt: new Date().toISOString() };
         registeredUsers.push(newUser);
-        safeLocalStorage.setItem("gabriel_registered_users", JSON.stringify(registeredUsers));
+        safeLocalStorage.setItem("fitcheck_registered_users", JSON.stringify(registeredUsers));
         
         // Authenticate session
         onAuthSuccess(email, phone, name);
@@ -366,7 +356,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
               >
                 <div className="flex items-center gap-1.5 text-[10px] font-bold text-jumia-orange tracking-widest uppercase">
                   <span className="w-1.5 h-1.5 rounded-full bg-jumia-orange animate-ping"></span>
-                  GABRIEL REALTIME COMMUNICATIONS GATEWAY
+                  FITCHECK REALTIME COMMUNICATIONS GATEWAY
                 </div>
                 <p className="leading-relaxed">{simulationToast}</p>
                 <div className="flex justify-between items-center pt-1 border-t border-stone-850 text-[9px] text-stone-400">
@@ -832,7 +822,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
                             <div className="flex items-center justify-between text-[9.5px] font-mono">
                               <span className="font-extrabold text-[#F68B1E] uppercase tracking-wide flex items-center gap-1">
                                 <span className="w-1.5 h-1.5 bg-[#F68B1E] rounded-full"></span>
-                                GABRIEL-SECURE ✓
+                                FITCHECK-SECURE ✓
                               </span>
                               <span className="text-stone-450 font-bold">Just Now</span>
                             </div>
@@ -879,7 +869,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
                           
                           <div className="text-center">
                             <h4 className="text-[11px] font-black text-stone-900 uppercase tracking-widest flex items-center gap-1 justify-center">
-                              GABRIEL-MFA
+                              FITCHECK-MFA
                               <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white inline-block shadow-3xs" title="Server Line Verified Active"></span>
                             </h4>
                             <p className="text-[8px] font-mono text-stone-400">
@@ -902,7 +892,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
                             </span>
                             <div className="bg-white text-stone-850 p-2.5 rounded-2xl rounded-tl-none shadow-3xs border border-stone-150">
                               <p className="text-[10px]">
-                                Hello and welcome! This signal channel authenticates vintage couture accounts registered live on Gabriel Archival Store. Keep your code private.
+                                Hello and welcome! This signal channel authenticates vintage accounts registered on FitCheck. Keep your code private.
                               </p>
                             </div>
                           </div>
@@ -921,7 +911,7 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
                             >
                               <div className="space-y-1.5 relative z-10 text-left">
                                 <div className="border-b border-stone-800 pb-1 flex items-center justify-between text-[8px] font-mono uppercase tracking-widest text-[#F68B1E] font-extrabold">
-                                  <span>GABRIEL SECURITY MFA</span>
+                                  <span>FITCHECK SECURITY MFA</span>
                                   <span className="bg-orange-950 px-1 rounded border border-orange-900">SIM GSM</span>
                                 </div>
                                 

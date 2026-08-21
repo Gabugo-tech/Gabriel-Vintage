@@ -138,8 +138,8 @@ export default function Navbar({
     if (onLogout) {
       onLogout();
     } else {
-      setEmailInput("guest@gabrielvintage.com");
-      setUserEmail("guest@gabrielvintage.com");
+      setEmailInput("guest@fitcheck.com");
+      setUserEmail("guest@fitcheck.com");
     }
     setShowAccountDropdown(false);
   };
@@ -152,7 +152,7 @@ export default function Navbar({
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1 font-bold text-jumia-orange">
             <span className="w-1.5 h-1.5 rounded-full bg-jumia-orange animate-ping"></span>
-            Gabriel Star Vintage — Physical Provenance Guaranteed
+            FitCheck — Physical Provenance Guaranteed
           </span>
           {isAdmin && (
             <>
@@ -211,7 +211,7 @@ export default function Navbar({
       <div className="bg-white py-3.5 px-4 sm:px-6 lg:px-8 border-b border-stone-200/90 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           
-          {/* Authentic Gabriel Logo */}
+          {/* FitCheck Logo */}
           <div 
             onClick={() => {
               setCurrentTab("browse");
@@ -220,10 +220,10 @@ export default function Navbar({
             className="cursor-pointer group flex items-center gap-2 select-none"
             id="brand_logo_nav"
           >
-            <div className="bg-jumia-orange text-white p-1 px-3.5 rounded-lg font-black tracking-tighter text-xl sm:text-2xl font-sans uppercase flex items-center gap-1">
-              GABRIEL <span className="text-stone-900 lowercase font-serif italic font-normal tracking-wide text-lg ml-0.5">vintage</span>
+            <div className="bg-jumia-orange text-white px-3.5 py-1.5 rounded-lg font-black tracking-tight text-xl sm:text-2xl font-sans flex items-center gap-0.5">
+              Fit<span className="text-stone-900 font-serif italic font-bold">Check</span>
             </div>
-            <span className="text-[8px] border-2 border-stone-900 px-1 py-0.5 rounded font-mono font-bold hidden xl:inline">SHIMOKITAZAWA SOURCED</span>
+            <span className="text-[8px] border-2 border-stone-900 px-1 py-0.5 rounded font-mono font-bold hidden xl:inline">VERIFIED VINTAGE</span>
           </div>
 
           {/* Central Search Input with Help placeholder */}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { VintageItem } from "../types";
 import { 
-  Search, 
   ShoppingBag, 
   Grid2X2, 
   ArrowUpDown,
@@ -29,11 +28,11 @@ interface VintageGridProps {
   isWishlistView?: boolean;
 }
 
-// Gabriel Promotional Banners for Slider Carousel
+// FitCheck Promotional Banners for Slider Carousel
 const GABRIEL_BANNERS = [
   {
     id: 1,
-    title: "GABRIEL ARCHIVAL SALE",
+    title: "FITCHECK ARCHIVAL SALE",
     subtitle: "Up to 50% Off Verified Single-Stitches, Aviators & Steerhide Leathers",
     badge: "Official Curated Stores",
     bg: "bg-gradient-to-r from-stone-900 to-amber-900",
@@ -41,7 +40,7 @@ const GABRIEL_BANNERS = [
   },
   {
     id: 2,
-    title: "GABRIEL EXPRESS DISPATCH",
+    title: "FITCHECK EXPRESS DISPATCH",
     subtitle: "Fully Measured Flat-Fit Checked Items & Delivered globally within 24 Hours",
     badge: "Super Speed Courier",
     bg: "bg-gradient-to-r from-stone-800 to-stone-900",
@@ -281,7 +280,7 @@ export default function VintageGrid({
           <div className="pt-4 border-t border-stone-200/80 space-y-3">
             <div className="flex gap-2.5 items-center text-stone-600 text-xs font-medium">
               <Truck className="w-5 h-5 text-jumia-orange shrink-0 animate-pulse" />
-              <span>Gabriel Express Courier</span>
+              <span>FitCheck Express Courier</span>
             </div>
             <div className="flex gap-2.5 items-center text-stone-600 text-xs font-medium">
               <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" />
@@ -377,7 +376,7 @@ export default function VintageGrid({
               <div className="flex items-center gap-2">
                 <BookOpen className="w-5 h-5 text-jumia-orange" />
                 <h3 className="font-sans font-extrabold text-sm text-[#111] uppercase tracking-wider">
-                  Gabriel Customer Welcomer & Guided Shop Center
+                  FitCheck Customer Guide & Walkthrough
                 </h3>
               </div>
               <button
@@ -456,7 +455,7 @@ export default function VintageGrid({
           <div className="bg-[#1C1A17] text-[#FAF9F5] p-3.5 rounded-xl shadow-sm flex items-center justify-between flex-wrap gap-2 border border-stone-800" id="gabriel_flash_sale_ribbon">
             <div className="flex items-center gap-2 font-bold font-sans">
               <Sparkles className="w-5 h-5 text-amber-400 fill-amber-400" />
-              <span className="text-xs sm:text-sm uppercase tracking-wider">GABRIEL EXCLUSIVE COUTURE ARCHIVE — PHYSICAL PROVENANCE CERTIFIED</span>
+              <span className="text-xs sm:text-sm uppercase tracking-wider">FITCHECK EXCLUSIVE COUTURE ARCHIVE — PHYSICAL PROVENANCE CERTIFIED</span>
             </div>
             <div className="flex items-center gap-3 text-xs">
               <span className="font-mono bg-stone-900 border border-stone-750 text-emerald-400 font-extrabold px-2.5 py-1 rounded text-[10px]">

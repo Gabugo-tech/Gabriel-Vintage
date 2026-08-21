@@ -30,8 +30,8 @@ export default function ItemDetailModal({
   const handleShare = async () => {
     if (!item) return;
     const shareUrl = `${window.location.origin}/?item=${item.id}`;
-    const shareTitle = `Gabriel Vintage: ${item.title}`;
-    const shareText = `Check out this rare ${item.era} ${item.title} sourced from ${item.marketName} on Gabriel Vintage!`;
+    const shareTitle = `FitCheck: ${item.title}`;
+    const shareText = `Check out this rare ${item.era} ${item.title} sourced from ${item.marketName} on FitCheck!`;
 
     if (navigator.share) {
       try {
@@ -723,7 +723,7 @@ export default function ItemDetailModal({
                               
                               <div className="flex justify-between items-start">
                                 <div className="space-y-0.5">
-                                  <span className="text-[7px] uppercase tracking-[0.25em] text-amber-400 font-black block">GABRIEL VINTAGE</span>
+                                  <span className="text-[7px] uppercase tracking-[0.25em] text-amber-400 font-black block">FITCHECK</span>
                                   <span className="text-[8px] text-stone-400">ENCRYPTED COUTURE HUB</span>
                                 </div>
                                 
@@ -786,7 +786,7 @@ export default function ItemDetailModal({
                                     type="text"
                                     value={cardHolder}
                                     onChange={(e) => setCardHolder(e.target.value)}
-                                    placeholder="GABRIEL DEV MEMBER"
+                                    placeholder="FITCHECK MEMBER"
                                     className="w-full bg-white border border-[#DCD9CE] focus:border-stone-900 p-2 rounded text-xs outline-none focus:ring-1 focus:ring-stone-900 font-sans"
                                     required={paymentOption === "credit"}
                                     disabled={isProcessing}
@@ -1076,7 +1076,7 @@ export default function ItemDetailModal({
                   <div className="bg-stone-50 border border-stone-200 p-3 rounded-lg space-y-2">
                     <h5 className="font-mono text-[10px] uppercase text-stone-800 font-extrabold tracking-wider">📦 INSURED WAX-SEALED CONTAINER EXPEDITION</h5>
                     <p className="leading-relaxed">
-                      All premium archives are packaged in acid-free tissue paper sheets, placed inside moisture-impermeable hard wood containers, and sealed with custom Gabriel branding wax.
+                      All premium archives are packaged in acid-free tissue paper sheets, placed inside moisture-impermeable hard wood containers, and sealed with custom FitCheck branding wax.
                     </p>
                     <p className="leading-relaxed">
                       Shipped via DHL premium carbon-neutral flight express with continuous tracker telemetry. Delivery completed within 2–4 business days worldwide.

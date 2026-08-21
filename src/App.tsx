@@ -38,7 +38,7 @@ export default function App() {
 
   // Gabriel Vintage account security states
   const [userEmail, setUserEmail] = useState<string>(() => {
-    return safeLocalStorage.getItem("user_email") || "guest@gabrielvintage.com";
+    return safeLocalStorage.getItem("user_email") || "guest@fitcheck.com";
   });
   const [userName, setUserName] = useState<string>(() => {
     return safeLocalStorage.getItem("user_name") || "Guest Customer";
@@ -106,7 +106,7 @@ export default function App() {
     safeLocalStorage.removeItem("user_email");
     safeLocalStorage.removeItem("user_name");
     safeLocalStorage.removeItem("user_phone");
-    setUserEmail("guest@gabrielvintage.com");
+    setUserEmail("guest@fitcheck.com");
     setUserName("Guest Customer");
     setUserPhone("");
     setCurrentTab("browse");
@@ -284,7 +284,7 @@ export default function App() {
     const prevHighestBidder = matchedItem?.highestBidder;
 
     if (prevHighestBidder && prevHighestBidder !== bidderName && matchedItem) {
-      const prevBidderEmail = prevHighestBidder === userName ? userEmail : `${prevHighestBidder.toLowerCase().replace(/\s+/g, "")}@gabrielvintage.com`;
+      const prevBidderEmail = prevHighestBidder === userName ? userEmail : `${prevHighestBidder.toLowerCase().replace(/\s+/g, "")}@fitcheck.com`;
       emailNotificationService.notifyOutbid(prevBidderEmail, bidderName, matchedItem.title, amount);
     }
 
@@ -350,7 +350,7 @@ export default function App() {
     if (purchasedItem) {
       // Finalize order with simulation email transmission log
       emailNotificationService.notifyPurchaseFinalized(
-        userEmail || "customer@gabrielvintage.com",
+        userEmail || "customer@fitcheck.com",
         buyerName,
         purchasedItem.title,
         purchasedItem.buyPrice || purchasedItem.currentBid,
@@ -434,7 +434,7 @@ export default function App() {
     );
   });
 
-  const isGated = !userEmail || userEmail === "guest@gabrielvintage.com" || userEmail.trim().toLowerCase().includes("guest");
+  const isGated = !userEmail || userEmail === "guest@fitcheck.com" || userEmail.trim().toLowerCase().includes("guest");
 
   if (isGated) {
     return (
@@ -450,7 +450,7 @@ export default function App() {
         <header className="border-b border-stone-800/80 py-5 px-6 relative z-10 flex items-center justify-between bg-stone-950/20 backdrop-blur-md">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 bg-jumia-orange rounded-full animate-ping"></span>
-            <span className="font-serif text-lg font-bold tracking-tight text-white italic">Gabriel Vintage Archive</span>
+            <span className="font-serif text-lg font-bold tracking-tight text-white italic">FitCheck</span>
           </div>
           <span className="font-mono text-[9px] uppercase tracking-widest text-amber-500 bg-amber-950/40 px-2.5 py-1 rounded border border-amber-900/30">
             Secure Entry Required
@@ -489,7 +489,7 @@ export default function App() {
               <Shield className="w-6 h-6 animate-pulse" />
             </div>
             <div className="space-y-1.5">
-              <h3 className="font-serif text-lg font-bold text-white italic">Unlock Gabriel Cabinet Access</h3>
+              <h3 className="font-serif text-lg font-bold text-white italic">Unlock FitCheck</h3>
               <p className="text-xs text-stone-400">Takes less than 60 seconds with simulated code verification delivery.</p>
             </div>
             
@@ -504,7 +504,7 @@ export default function App() {
 
         {/* Footer info lock indicator */}
         <footer className="border-t border-stone-800/60 py-6 text-center text-[10px] text-stone-500 font-mono relative z-10 uppercase tracking-widest bg-stone-950/10">
-          GABRIEL VINTAGE LTD © 2026 • LOCKED CATALOG SECURITY SUITE
+          FITCHECK © 2026 • LOCKED CATALOG SECURITY SUITE
         </footer>
 
         {/* Auths Modal triggered directly - with strict hideCloseButton enforcement */}
@@ -548,7 +548,7 @@ export default function App() {
                 The anti-fast fashion showroom
               </span>
               <h1 className="font-serif text-4xl sm:text-7xl font-bold tracking-tight leading-tight max-w-4xl mx-auto italic">
-                Gabriel Vintage. <br className="hidden sm:inline" />No Plastic. Pure Patina.
+                FitCheck. <br className="hidden sm:inline" />No Plastic. Pure Patina.
               </h1>
               <p className="font-sans text-stone-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
                 Step into a high-fidelity digital bazaar where historical single-stitches, steerhide aviators, and Milanese silks are cataloged with raw backstories, auctioned live, and guaranteed physical origins.
@@ -746,7 +746,7 @@ export default function App() {
             setFeedbackItemTitle("");
           }}
           vendorId={feedbackVendorId}
-          vendorName={booths.find(b => b.id === feedbackVendorId)?.name || "Gabriel Curators"}
+          vendorName={booths.find(b => b.id === feedbackVendorId)?.name || "FitCheck Curators"}
           itemTitle={feedbackItemTitle}
           defaultCustomerName={userName || "Verified Buyer"}
           onSubmitSuccess={() => {
@@ -770,7 +770,7 @@ export default function App() {
             {/* Column 1 */}
             <div className="space-y-4">
               <span className="font-sans font-black text-xl bg-orange-600 px-3 py-1 rounded w-fit text-white block">
-                GABRIEL VINTAGE
+                FITCHECK
               </span>
               <p className="text-stone-400 text-xs leading-relaxed max-w-sm">
                 A digital counter-response to crowded, low-quality superstores. Dedicated to premium vintage garments that tell original tales. We verify flat-measurements and materials so you buy only lasting design heritage.
@@ -802,14 +802,14 @@ export default function App() {
               </p>
               <div className="flex gap-3 pt-2 text-stone-400">
                 <Instagram className="w-4 h-4 hover:text-amber-400 transition-colors" />
-                <span className="text-[10px] uppercase font-mono tracking-widest hover:text-amber-400 cursor-pointer">@gabriel_vintage_tokyo</span>
+                <span className="text-[10px] uppercase font-mono tracking-widest hover:text-amber-400 cursor-pointer">@fitcheck_vintage</span>
               </div>
             </div>
           </div>
 
           {/* Copyright details */}
           <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-mono text-stone-500">
-            <p>© {new Date().getFullYear()} Gabriel Vintage. All physical provenance recorded.</p>
+            <p>© {new Date().getFullYear()} FitCheck. All physical provenance recorded.</p>
             <div className="flex gap-4">
               <span className="hover:text-stone-300 cursor-pointer">Buyer Protection Charter</span>
               <span>•</span>

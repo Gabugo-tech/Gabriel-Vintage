@@ -86,7 +86,7 @@ export default function ClosetHub({ items, bidLogs, purchasedItemIds, onSelectIt
                 </div>
               )}
             </div>
-            <p className="font-mono text-xs text-amber-400"> Gabriel Licensed Custodian #V-{custodianNumber}</p>
+            <p className="font-mono text-xs text-amber-400"> FitCheck Licensed Custodian #V-{custodianNumber}</p>
           </div>
         </div>
 

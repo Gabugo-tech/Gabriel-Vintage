@@ -1,5 +1,5 @@
 /**
- * Simulated Email Notification Service for Gabriel Vintage Archive
+ * Simulated Email Notification Service for FitCheck
  * Logs mock email transmissions to the developer console with styling and structures.
  */
 
@@ -14,9 +14,8 @@ export const emailNotificationService = {
   sendEmail: (payload: EmailPayload) => {
     const timestamp = new Date().toLocaleString();
     
-    // We use distinct, stylized visual cards in console logs to ensure clarity
     console.log(
-      `%c 📬 GABRIEL MAILBOX ENGINE: Simulated Email Routed to Server at ${timestamp} `,
+      `%c 📬 FITCHECK MAILBOX ENGINE: Simulated Email Routed to Server at ${timestamp} `,
       "background: #1C1A17; color: #FAF9F5; border-radius: 4px; padding: 5px 10px; font-weight: bold; font-family: monospace; border-left: 4px solid #AF8B50;"
     );
     console.log(
@@ -34,12 +33,9 @@ export const emailNotificationService = {
     );
   },
 
-  /**
-   * Dispatches outbid email alert log to console
-   */
   notifyOutbid: (recipientEmail: string, bidderName: string, itemTitle: string, newBidAmount: number) => {
     const body = `
-Dear Gabriel Curator / Valued Collector,
+Dear FitCheck Curator / Valued Collector,
 
 Your bid on our archived lot has been exceeded.
 
@@ -47,45 +43,42 @@ Your bid on our archived lot has been exceeded.
 🔥 Elevated Bid Price: ₦${newBidAmount.toLocaleString()}
 👤 Bidder Signature Identifier: ${bidderName}
 
-To protect your provenance claim or place a defensive counter-bid, please return to the live showroom cabinets immediately.
+To protect your provenance claim or place a counter-bid, return to the live showroom immediately.
 
 Yours in craft,
-Gabriel Vintage Archive Automated Intelligence Ledger
+FitCheck Automated Ledger
     `.trim();
 
     emailNotificationService.sendEmail({
       to: recipientEmail,
-      subject: `⚠️ Live Outbid Notice: "${itemTitle}" on Gabriel Vintage`,
+      subject: `⚠️ Live Outbid Notice: "${itemTitle}" on FitCheck`,
       body,
       type: "outbid"
     });
   },
 
-  /**
-   * Dispatches finalized purchase order receipt to console
-   */
   notifyPurchaseFinalized: (recipientEmail: string, buyerName: string, itemTitle: string, price: number, transactionId: string) => {
     const body = `
 Dear ${buyerName},
 
-Archived Acquisition Accomplished!
+Acquisition Accomplished!
 
-We are pleased to confirm that this highly coveted item has been successfully finalized in our active order book and secured inside your personal virtual closet.
+We are pleased to confirm that this item has been secured in your personal vault.
 
-📦 Sourced Vault Item: "${itemTitle}"
-💵 Handled Price Amount: ₦${price.toLocaleString()}
-🧾 Ledger Txn ID: ${transactionId}
-🚚 Delivery Status: Preparing Wax-Sealed Courier Packaging
+📦 Item: "${itemTitle}"
+💵 Price: ₦${price.toLocaleString()}
+🧾 Transaction ID: ${transactionId}
+🚚 Status: Preparing Courier Packaging
 
-Our boutique flat-checks all dimensions and bundles its historic flea market backstory before final courier dispatch. Thank you for protecting the craft and avoiding fast-fashion catalogs.
+Thank you for choosing FitCheck.
 
 Best regards,
-Gabriel Vintage Ltd.
+FitCheck Ltd.
     `.trim();
 
     emailNotificationService.sendEmail({
       to: recipientEmail,
-      subject: `🎉 Transaction Completed: Sourced Heritage Secured for "${itemTitle}"`,
+      subject: `🎉 Transaction Completed: "${itemTitle}" Secured on FitCheck`,
       body,
       type: "purchase_finalized"
     });
