@@ -114,23 +114,11 @@ export default function Navbar({
     }
   };
 
-  const isAdmin = userEmail.trim().toLowerCase() === "darcywon644@gmail.com" || userEmail.trim().toLowerCase() === "darcywon664@gmail.com";
+  const isAdmin = userEmail.trim().toLowerCase() === "nnanwubagabriel@gmail.com";
 
   const handleUpdateEmail = (e: React.FormEvent) => {
     e.preventDefault();
     setUserEmail(emailInput);
-    setShowAccountDropdown(false);
-  };
-
-  const setAsAdmin664 = () => {
-    setEmailInput("darcywon664@gmail.com");
-    setUserEmail("darcywon664@gmail.com");
-    setShowAccountDropdown(false);
-  };
-
-  const setAsAdmin644 = () => {
-    setEmailInput("darcywon644@gmail.com");
-    setUserEmail("darcywon644@gmail.com");
     setShowAccountDropdown(false);
   };
 
@@ -196,11 +184,12 @@ export default function Navbar({
               </button>
             ) : (
               <button 
-                onClick={setAsAdmin664}
-                className="text-[10px] text-white hover:bg-jumia-orange bg-emerald-700 px-1.5 py-0.5 rounded font-bold transition-colors cursor-pointer"
-                title="Mock logging in as Darcy's admin email"
+                onClick={() => {
+                  if (onOpenAuthModal) onOpenAuthModal();
+                }}
+                className="text-[10px] text-white hover:bg-jumia-orange bg-stone-700 px-1.5 py-0.5 rounded font-bold transition-colors cursor-pointer"
               >
-                Login Admin Term
+                Sign In
               </button>
             )}
           </div>
@@ -323,7 +312,7 @@ export default function Navbar({
                   {userName ? userName.charAt(0) : "U"}
                 </div>
                 <span className="max-w-[100px] truncate">
-                  {isAdmin ? "Hi, Darcy" : userName ? `Hi, ${userName.split(" ")[0]}` : "My Account"}
+                  {isAdmin ? "Hi, Gabriel" : userName ? `Hi, ${userName.split(" ")[0]}` : "My Account"}
                 </span>
                 <ChevronDown className={`w-3.5 h-3.5 text-stone-500 transition-transform duration-300 ${showAccountDropdown ? "rotate-180" : ""}`} />
               </button>
@@ -356,31 +345,13 @@ export default function Navbar({
                     </button>
 
                     <div className="pt-2 border-t border-stone-100 space-y-2">
-                      <p className="text-[10px] font-bold text-stone-500 uppercase">Authorize Admin Test Nodes</p>
-                      <div className="grid grid-cols-2 gap-1.5">
-                        <button 
-                          onClick={setAsAdmin664}
-                          className="bg-stone-100 hover:bg-stone-150 p-1 rounded font-mono text-[9px] text-[#313131] font-bold"
-                          title="Authorized darcywon664@gmail.com"
-                        >
-                          darcywon664
-                        </button>
-                        <button 
-                          onClick={setAsAdmin644}
-                          className="bg-stone-100 hover:bg-stone-150 p-1 rounded font-mono text-[9px] text-[#313131] font-bold"
-                          title="Authorized darcywon644@gmail.com"
-                        >
-                          darcywon644
-                        </button>
-                      </div>
+                      <button 
+                        onClick={logoutToGuest}
+                        className="w-full text-center py-1.5 text-[10px] text-stone-500 hover:text-stone-900 font-mono font-bold"
+                      >
+                        Sign out
+                      </button>
                     </div>
-
-                    <button 
-                      onClick={logoutToGuest}
-                      className="w-full text-center py-1.5 text-[10px] text-stone-500 hover:text-stone-900 font-mono font-bold mt-1"
-                    >
-                      Clear session back to guest
-                    </button>
                   </div>
                 </div>
               )}

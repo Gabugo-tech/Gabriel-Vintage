@@ -257,9 +257,9 @@ export default function AuthModal({ isOpen, onClose, onAuthSuccess, hideCloseBut
   const handleGoogleSignIn = () => {
     setSimulationToast("🔄 AUTH SERVICES: Fetching secure cryptographic token from accounts.google.com...");
     setTimeout(() => {
-      const gEmail = "darcywon644@gmail.com";
-      const gName = "Darcy Won";
-      const gPhone = "+254 755 319800";
+      const gEmail = "nnanwubagabriel@gmail.com";
+      const gName = "Gabriel";
+      const gPhone = "+234 800 000 0000";
       
       setName(gName);
       setEmail(gEmail);

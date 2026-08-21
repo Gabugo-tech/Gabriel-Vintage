@@ -71,12 +71,12 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
   const [showSuccess, setShowSuccess] = useState(false);
   const [formError, setFormError] = useState("");
 
-  const isAdmin = userEmail.trim().toLowerCase() === "darcywon644@gmail.com" || userEmail.trim().toLowerCase() === "darcywon664@gmail.com";
+  const isAdmin = userEmail.trim().toLowerCase() === "nnanwubagabriel@gmail.com";
 
   const handleElevateAdmin = () => {
-    if (window.confirm("This will sign you in as the admin account (darcywon644@gmail.com). Continue?")) {
-      safeLocalStorage.setItem("user_email", "darcywon644@gmail.com");
-      safeLocalStorage.setItem("user_name", "Darcy");
+    if (window.confirm("This will sign you in as the admin account (nnanwubagabriel@gmail.com). Continue?")) {
+      safeLocalStorage.setItem("user_email", "nnanwubagabriel@gmail.com");
+      safeLocalStorage.setItem("user_name", "Gabriel");
       window.dispatchEvent(new Event("storage"));
       window.location.reload();
     }
@@ -97,7 +97,7 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
             Current Session Email: {userEmail || "No Email Provided"}
           </div>
           <p className="text-xs text-stone-650 leading-relaxed pt-2">
-            According to platform guidelines, only administrators with the email <strong className="text-stone-900">darcywon644@gmail.com</strong> or <strong className="text-stone-900">darcywon664@gmail.com</strong> can list, upload, or curate clothes in this website.
+            Only the administrator with the email <strong className="text-stone-900">nnanwubagabriel@gmail.com</strong> can list, upload, or curate items on this platform.
           </p>
         </div>
 
@@ -107,7 +107,7 @@ export default function SellForm({ booths, onAddListing, userEmail }: SellFormPr
             className="w-full py-3 bg-jumia-orange hover:bg-jumia-orange-hover text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-1.5"
           >
             <ShieldAlert className="w-4 h-4" />
-            Sign In as Admin (darcywon644@gmail.com)
+            Sign In as Admin (nnanwubagabriel@gmail.com)
           </button>
           <p className="text-[10px] text-stone-400 font-mono">
             Clicking will automatically update session email and grant listing workspace authorization.

@@ -66,7 +66,7 @@ export default function AdminDashboard({
   const [isDragging, setIsDragging] = useState(false);
   const [uploadError, setUploadError] = useState<string>("");
 
-  const isAdmin = userEmail.trim().toLowerCase() === "darcywon644@gmail.com" || userEmail.trim().toLowerCase() === "darcywon664@gmail.com";
+  const isAdmin = userEmail.trim().toLowerCase() === "nnanwubagabriel@gmail.com";
 
   if (!isAdmin) {
     return (
@@ -76,13 +76,13 @@ export default function AdminDashboard({
         </div>
         <h2 className="text-xl font-bold text-stone-900 uppercase font-sans">Curator Privilege Required</h2>
         <p className="text-xs text-stone-500 mt-2 max-w-sm mx-auto leading-relaxed">
-          The Admin Dashboard is locked. Secure session credentials are only granted to certified curators with authorized signatures with email:
+          The Admin Dashboard is restricted to authorized administrators only.
         </p>
         <div className="bg-[#FEF5EF] text-xs font-mono text-stone-700 p-2.5 rounded border border-orange-100 font-bold max-w-xs mx-auto my-4 break-all">
-          darcywon664@gmail.com <br /> darcywon644@gmail.com
+          nnanwubagabriel@gmail.com
         </div>
         <p className="text-[11px] text-stone-400">
-          Modify your active account email to either of above to access the cockpit.
+          Sign in with the admin account to access the dashboard.
         </p>
       </div>
     );
@@ -169,7 +169,7 @@ export default function AdminDashboard({
           ...item,
           currentBid: cutPrice,
           bidDropped: true,
-          bidDroppedReason: "💥 ADMIN FLASH DISPATCH: Authorized 15% Price Cut applied directly by Darcy's Admin terminal!"
+          bidDroppedReason: "💥 ADMIN FLASH DISPATCH: Authorized 15% Price Cut applied by FitCheck Admin!"
         };
       }
       return item;

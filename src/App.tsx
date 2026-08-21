@@ -67,7 +67,7 @@ export default function App() {
     });
   };
 
-  const isAdmin = userEmail.trim().toLowerCase() === "darcywon644@gmail.com" || userEmail.trim().toLowerCase() === "darcywon664@gmail.com";
+  const isAdmin = userEmail.trim().toLowerCase() === "nnanwubagabriel@gmail.com";
 
   useEffect(() => {
     const stored = safeLocalStorage.getItem("vintage_dark_mode") === "true";
@@ -95,10 +95,10 @@ export default function App() {
     setUserEmail(email);
     safeLocalStorage.setItem("user_email", email);
     
-    // Automatically match curator names for darcy admin accounts
-    if (email.trim().toLowerCase() === "darcywon644@gmail.com" || email.trim().toLowerCase() === "darcywon664@gmail.com") {
-      setUserName("Darcy");
-      safeLocalStorage.setItem("user_name", "Darcy");
+    // Automatically set name for admin account
+    if (email.trim().toLowerCase() === "nnanwubagabriel@gmail.com") {
+      setUserName("Gabriel");
+      safeLocalStorage.setItem("user_name", "Gabriel");
     }
   };
 
